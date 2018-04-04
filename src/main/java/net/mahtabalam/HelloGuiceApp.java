@@ -1,31 +1,28 @@
 package net.mahtabalam;
 
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Module;
+import com.google.inject.Provider;
 
 import net.mahtabalam.module.HelloGuiceModule;
-import net.mahtabalam.service.HelloGuiceService;
 
 public class HelloGuiceApp {
 	 
-	 @Inject
-	    HelloGuiceService helloGuiceService;
-	 
+	
 	    public static void main(String[] args) {
 	        
-	    	HelloGuiceApp helloGuiceApp = new HelloGuiceApp();
-	 
-	        Module module = new HelloGuiceModule();
-	        Injector injector = Guice.createInjector(module);
-	        injector.injectMembers(helloGuiceApp);
-	 
-	        helloGuiceApp.providerTest();
-	    }
-	 
-	    private void providerTest() {
-	        String testStr = helloGuiceService.serviceMethod("Hello World!");
-	        System.out.println(testStr);
-	    }
+	    	Injector injector = Guice.createInjector(new HelloGuiceModule());
+			
+			// "HelloGuiceServiceProvider.get()" will be called only once
+			String value1 = injector.getInstance(String.class); // Called HelloGuiceServiceProvider.get() method
+			System.out.println(value1);
+			String value2 = injector.getInstance(String.class);  // No call to HelloGuiceServiceProvider.get() method
+			System.out.println(value2);
+			
+			// Another way to get provider instance
+			Provider<String> providerInstance = injector.getProvider(String.class);
+			System.out.println(providerInstance.get());  // No call to HelloGuiceServiceProvider.get() method
+			System.out.println(providerInstance.get());  // No call to HelloGuiceServiceProvider.get() method    
+	    }    
+	   
 }

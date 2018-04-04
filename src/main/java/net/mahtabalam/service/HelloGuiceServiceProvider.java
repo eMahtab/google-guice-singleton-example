@@ -2,12 +2,10 @@ package net.mahtabalam.service;
 
 import com.google.inject.Provider;
 
-public class HelloGuiceServiceProvider implements Provider<HelloGuiceService>{
+public class HelloGuiceServiceProvider implements Provider<String>{
 	
-	@Override
-	public HelloGuiceService get() {
-		HelloGuiceService helloGuiceService = new HelloGuiceServiceImpl();
-        return helloGuiceService;
+	public String get() {
+		System.out.println("HelloGuiceServiceProvider.get() being called");
+        return "Singleton scope test";
 	}
-	
 }
